@@ -1,0 +1,18 @@
+## Minimum RTO for a single AZ outage
+
+In the event of a single AZ failure, the minimal RTO would be to receive updated DNS updates. In the case of Multi-AZ deployment, the standby instance is already operational, and data is duplicated synchronously. This enables a speedy recovery.
+
+## Minimum RTO for a single region outage
+
+- In this instance, the ensuing elements will be taken into account:
+  - Now that read replica is a primary instance on its own, bring it up: Usually, this takes fifteen to twenty minutes.
+  - It's time to update your application's DNS settings so it can connect to the new endpoint. Depending on how the application is designed, this could take 15 to 120 minutes. A single location is where changes can be made if an application uses centralized key/value management, such as Hashicorp Vault.
+- In conclusion, RTO may require at least 45 to 60 minutes.
+
+## Minimum RPO for a single AZ outage
+
+Point-in-time restore is possible with RDS, and transactions are uploaded every five minutes. The maximum amount of data that might be lost in this scenario would be 5 minutes.
+
+## Minimum RPO for a single region outage
+
+Since read replicas are meant to be updated in tandem with the primary database, they should have almost identical RPOs. In certain severe situations, the RPO should be no more than ±10 minutes.
